@@ -1,5 +1,4 @@
 
-
 section .data
     fifo_cmd  db "fifo_cmd",0
     fifo_resp db "fifo_resp",0
@@ -19,23 +18,23 @@ section .data
     msg_value db "Valor no cofre: ",0
 
 section .bss
-    buf resb 64
-    valor resq 1
-    fd_cmd resq 1
-    fd_resp resq 1
+    buf resb 64        ; buffer para comandos e respostas
+    valor resq 1      ; valor armazenado no cofre
+    fd_cmd resq 1     ; fd do FIFO de comandos
+    fd_resp resq 1    ; fd do FIFO de respostas
 
 section .text
     global _start
 
 _start:
-    ; abrir fifo_cmd (leitura)
+    ; Inicializa o daemon abrindo os FIFOs e zerando o cofre
+
     mov rax,2
     lea rdi,[fifo_cmd]
     mov rsi,0
     syscall
     mov [fd_cmd],rax
 
-    ; abrir fifo_resp (escrita)
     mov rax,2
     lea rdi,[fifo_resp]
     mov rsi,1
@@ -45,6 +44,8 @@ _start:
     mov qword [valor],0
 
 .loop:
+    ; Loop principal: lê comandos e executa ações
+
     mov rax,0
     mov rdi,[fd_cmd]
     lea rsi,[buf]
@@ -64,10 +65,12 @@ _start:
     jmp .loop
 
 .abrir:
+    ; Abre o cofre (apenas envia mensagem)
     call w_open
     jmp .loop
 
 .inserir:
+    ; Insere um valor numérico no cofre
     mov al,[buf+2]
     sub al,'0'
     movzx rax,al
@@ -76,6 +79,7 @@ _start:
     jmp .loop
 
 .consultar:
+    ; Consulta o valor do cofre
     mov rax,[valor]
     cmp rax,0
     je .vazio
@@ -83,23 +87,27 @@ _start:
     jmp .loop
 
 .vazio:
+    ; Informa que o cofre está vazio
     call w_empty
     jmp .loop
 
 .esvaziar:
+    ; Esvazia o cofre
     mov qword [valor],0
     call w_clear
     jmp .loop
 
 .sair:
+    ; Encerra o daemon
     call w_exit
     mov rax,60
     xor rdi,rdi
     syscall
 
-; -------- writes --------
+; -------- funções de escrita no FIFO --------
 
 w_open:
+    ; Envia mensagem de cofre aberto
     mov rax,1
     mov rdi,[fd_resp]
     lea rsi,[msg_open]
@@ -108,6 +116,7 @@ w_open:
     ret
 
 w_empty:
+    ; Envia mensagem de cofre vazio
     mov rax,1
     mov rdi,[fd_resp]
     lea rsi,[msg_empty]
@@ -116,6 +125,7 @@ w_empty:
     ret
 
 w_clear:
+    ; Envia mensagem de cofre esvaziado
     mov rax,1
     mov rdi,[fd_resp]
     lea rsi,[msg_clear]
@@ -124,6 +134,7 @@ w_clear:
     ret
 
 w_exit:
+    ; Envia mensagem de encerramento
     mov rax,1
     mov rdi,[fd_resp]
     lea rsi,[msg_exit]
@@ -132,6 +143,7 @@ w_exit:
     ret
 
 w_valor:
+    ; Envia o valor armazenado no cofre
     mov rax,1
     mov rdi,[fd_resp]
     lea rsi,[msg_value]
@@ -149,4 +161,3 @@ w_valor:
     mov rdx,2
     syscall
     ret
-
