@@ -1,4 +1,4 @@
-; daemon.asm — versão correta com 2 FIFOs
+
 
 section .data
     fifo_cmd  db "fifo_cmd",0
