@@ -104,7 +104,7 @@ _start:
     xor rdi,rdi
     syscall
 
-; -------- funções de escrita no FIFO --------
+; funções de escrita no FIFO 
 
 w_open:
     ; Envia mensagem de cofre aberto
