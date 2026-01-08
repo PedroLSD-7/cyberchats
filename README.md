@@ -1,140 +1,119 @@
-# Execução – Cofre em Assembly + C (Linux)
-## Descrição
+# BANCO VIRTUAL NUCOMP 
+## Sistema bancário cliente-daemon desenvolvido em Assembly x86_64 e C, com comunicação via sinais Unix.
 
-Este projeto implementa um sistema de cofre utilizando:
+compilacao do programe via terminal ubuntu
 
-Assembly (NASM x86_64) → lógica do cofre (daemon)
-
-Linguagem C → interface de usuário
-
-A comunicação ocorre via FIFO (named pipe).
-
-## Requisitos do Sistema
-
- * Sistema operacional Linux (Ubuntu, Debian, WSL, etc.)
-
- * Arquitetura 64 bits
-
- * Ferramentas instaladas:
-
-nasm
-
-gcc
-
-ld
-
-make (opcional)
-
-## Instalação dos Requisitos
-
-Ubuntu / Debian / WSL:
-
-sudo apt update
-
-sudo apt install nasm gcc build-essential
-
-
-## Verificação:
-
-nasm -v
-
-gcc --version
-
-## Estrutura do Projeto
-
-Após extrair o ZIP:
-
-cyberchats/
-├── daemon.asm    # Código Assembly (daemon do cofre)
-├── cliente.c     # Interface em C
-
-## Compilação do Projeto
-
-Entre na pasta do projeto:
-
-cd cyberchats
-
-1 - Compilar o daemon (Assembly)
-
+### Daemon
+ 
 nasm -f elf64 daemon.asm
+ld -o daemon daemon.o
 
-ld daemon.o -o daemon
+### Cliente
+ 
+gcc -c banco.c -o banco.o
+gcc -c cliente.c -o cliente.o  
+gcc -c menus.c -o menus.o
+gcc banco.o cliente.o menus.o -o cliente
 
-2 - Compilar o cliente (C)
-
-gcc cliente.c -o cliente
-
-## Execução
-
-1 - Iniciar o daemon (em background)
-
+### Executar
+ 
 ./daemon &
-
-O terminal mostrará o PID do daemon.
-
-2 - Executar o cliente
-
 ./cliente
 
-## Menu do Sistema
 
-1 - Abrir cofre
+Teste o Sistema
+text
+1. Registre um novo usuário
+   - Nome: "cliente1"
+   - Senha: "senha123"
+   - Saldo inicial: R$ 30.000,00
 
-2 - Inserir valor (0 a 9)
+2. Faça login com as credenciais
 
-3 - Consultar valor
+3. Teste as operações:
+   - Consultar saldo
+   - Depositar (limite: R$ 10.000,00 por transação)
+   - Sacar (limite: R$ 5.000,00 por transação)
+   - Logout
 
-4 - Esvaziar cofre
+TESTES RECOMENDADOS
 
-5 - Encerrar daemon
+ 
+1. Registre usuário "teste1"
+2. Faça login
+3. Deposite R$ 8.000,00
+4. Saque R$ 3.000,00
+5. Consulte saldo (deve mostrar R$ 35.000,00)
+6. Faça logout
+7. Login novamente (saldo deve persistir)
 
-## Observações:
+Teste 2: Limites de segurança
+1. Tente depositar R$ 15.000,00 (deve falhar)
+2. Tente sacar R$ 6.000,00 (deve falhar)
+3. Tente login com senha errada 3x (deve bloquear)
 
-O cofre aceita valores de 0 a 9
+Teste 3: Múltiplos usuários
+1. Registre "usuario2"
+2. Faça operações
+3. Login com "teste1" (saldos devem ser independentes)
 
-Se nenhum valor for inserido, o cofre retorna 0
+ ### FUNCIONALIDADES IMPLEMENTADAS
 
-As operações funcionam em sequência, sem reiniciar o programa
+Sistema de registro com validação
 
-## Encerrar o Sistema
+Login com limite de tentativas
 
-Use a opção:
+Consulta de saldo em tempo real
 
-5 - Encerrar daemon
+Depósito com limites por transação
 
-Ou, em último caso:
+Saque com verificação de saldo
 
-kill <PID>
+Persistência de dados entre sessões
 
-## Limpeza (Opcional)
+Logout seguro
 
-Para apagar arquivos gerados:
+### Recursos Técnicos
+Comunicação interprocessos via sinais
 
-rm -f daemon daemon.o cliente cofre_fifo
+Máquina de estados no daemon
 
-## Problemas Comuns
+Logging de todas as operações
 
- “Erro ao abrir FIFO”
+Interface colorida no terminal
 
-*  Certifique-se de que o daemon está rodando antes do cliente
+Validação robusta de entrada
 
- “command not found”
+Tratamento de erros gracefull
 
-*  Verifique se está na pasta correta:
+### REFERÊNCIAS TÉCNICAS
 
-pwd
+Assembly x86_64
 
-## Conclusão
+Syscalls Linux: write, fork, exit, kill, signal
 
-* Projeto portátil
+Modo de endereçamento: 64-bit
 
-* Funciona em qualquer Linux 64 bits
+Convenção de chamada: System V AMD64 ABI
 
-* Comunicação entre C e Assembly
+Sinais Unix
 
-* Execução contínua sem reinicialização
+SIGUSR1/SIGUSR2: Comunicação personalizada
 
+SIGTERM: Finalização limpa
 
-### autores
+SIGINT: Interrupção do usuário
+
+SIGHUP: Reinicialização
+
+### Estruturas de Dados
+
+Usuário: nome, senha hash, saldo, timestamp
+
+Estado: máquina de estados finitos
+
+Log: timestamp + mensagem
+
+## AUTORES
 - Pedro Luis Silva Dias
 - Thiago Henrique Garcia Da Paz
