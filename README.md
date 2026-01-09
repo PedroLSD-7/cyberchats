@@ -3,24 +3,39 @@
 
 compilacao do programe via terminal ubuntu
 
-### Daemon
+### apos baixar a pasta com os arquivos no terminal abra a pasta
 
-cd cyberchats
- 
-nasm -f elf64 daemon.asm
-ld -o daemon daemon.o
+    cd cyberchats
 
-### Cliente
- 
-gcc -c banco.c -o banco.o
-gcc -c cliente.c -o cliente.o  
-gcc -c menus.c -o menus.o
+### Primeiro passo para executar , mate todos os processos antigos caso tenha tentado executar da forma errada
+
+    killall daemon 2>/dev/null
+    killall cliente 2>/dev/null
+
+### Limpe os arquivos de compilação caso tenha tentado executar da forma errada
+
+
+    rm -f *.o daemon cliente daemon.pid daemon.log
+
+### Compile o daemon
+
+    nasm -f elf64 daemon.asm -o daemon.o
+    ld -o daemon daemon.o
+
+### Compile o cliente
+
+    gcc -c banco.c -o banco.o
+    gcc -c cliente.c -o cliente.o
+    gcc -c menus.c -o menus.o
+
 gcc banco.o cliente.o menus.o -o cliente
 
-### Executar
- 
-./daemon &
-./cliente
+ ### Execute 
+
+    ./daemon &
+
+
+    ./cliente
 
 
 Teste o Sistema
