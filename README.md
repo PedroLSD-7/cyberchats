@@ -27,13 +27,14 @@ compilacao do programe via terminal ubuntu
     gcc -c banco.c -o banco.o
     gcc -c cliente.c -o cliente.o
     gcc -c menus.c -o menus.o
+    gcc banco.o cliente.o menus.o -o cliente
 
 gcc banco.o cliente.o menus.o -o cliente
 
  ### Execute 
 
     ./daemon &
-
+___
 
     ./cliente
 
