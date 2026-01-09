@@ -29,7 +29,7 @@ compilacao do programe via terminal ubuntu
     gcc -c menus.c -o menus.o
     gcc banco.o cliente.o menus.o -o cliente
 
-gcc banco.o cliente.o menus.o -o cliente
+
 
  ### Execute 
 
