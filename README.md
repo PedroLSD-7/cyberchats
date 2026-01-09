@@ -77,60 +77,60 @@ Teste 3: Múltiplos usuários
 
  ### FUNCIONALIDADES IMPLEMENTADAS
 
-Sistema de registro com validação
+  - Sistema de registro com validação
 
-Login com limite de tentativas
+  - Login com limite de tentativas
 
-Consulta de saldo em tempo real
+  - Consulta de saldo em tempo real
 
-Depósito com limites por transação
+  - Depósito com limites por transação
 
-Saque com verificação de saldo
+  - Saque com verificação de saldo
 
-Persistência de dados entre sessões
+  - Persistência de dados entre sessões
 
-Logout seguro
+  - Logout seguro
 
 ### Recursos Técnicos
-Comunicação interprocessos via sinais
+  - Comunicação interprocessos via sinais
 
-Máquina de estados no daemon
+  - Máquina de estados no daemon
 
-Logging de todas as operações
+  - Logging de todas as operações
 
-Interface colorida no terminal
+  - Interface colorida no terminal
 
-Validação robusta de entrada
+  - Validação robusta de entrada
 
-Tratamento de erros gracefull
+  - Tratamento de erros gracefull
 
 ### REFERÊNCIAS TÉCNICAS
 
-Assembly x86_64
+  - Assembly x86_64
 
-Syscalls Linux: write, fork, exit, kill, signal
+  - Syscalls Linux: write, fork, exit, kill, signal
 
-Modo de endereçamento: 64-bit
+  - Modo de endereçamento: 64-bit
 
-Convenção de chamada: System V AMD64 ABI
+  - Convenção de chamada: System V AMD64 ABI
 
-Sinais Unix
+  - Sinais Unix
 
-SIGUSR1/SIGUSR2: Comunicação personalizada
+  - SIGUSR1/SIGUSR2: Comunicação personalizada
 
-SIGTERM: Finalização limpa
+  - SIGTERM: Finalização limpa
 
-SIGINT: Interrupção do usuário
+  - SIGINT: Interrupção do usuário
 
-SIGHUP: Reinicialização
+  - SIGHUP: Reinicialização
 
 ### Estruturas de Dados
 
-Usuário: nome, senha hash, saldo, timestamp
+  - Usuário: nome, senha hash, saldo, timestamp
 
-Estado: máquina de estados finitos
+  - Estado: máquina de estados finitos
 
-Log: timestamp + mensagem
+  - Log: timestamp + mensagem
 
 ## AUTORES
 - Pedro Luis Silva Dias
