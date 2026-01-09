@@ -4,6 +4,8 @@
 compilacao do programe via terminal ubuntu
 
 ### Daemon
+
+cd cyberchats
  
 nasm -f elf64 daemon.asm
 ld -o daemon daemon.o
@@ -48,8 +50,8 @@ TESTES RECOMENDADOS
 7. Login novamente (saldo deve persistir)
 
 Teste 2: Limites de segurança
-1. Tente depositar R$ 15.000,00 (deve falhar)
-2. Tente sacar R$ 6.000,00 (deve falhar)
+1. Tente depositar R$ 15.000,00 
+2. Tente sacar R$ 6.000,00 
 3. Tente login com senha errada 3x (deve bloquear)
 
 Teste 3: Múltiplos usuários
